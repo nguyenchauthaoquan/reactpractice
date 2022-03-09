@@ -1,6 +1,7 @@
 import '../styles/css/App.css';
 import {connect} from "react-redux";
-import {CALCULATE, GET_EXPRESSION} from "../constants";
+import {CALCULATE, CLEAR} from "../constants";
+import {getExpression} from "../actions";
 
 function App(props) {
 
@@ -10,34 +11,36 @@ function App(props) {
           {props.calculator.expression}
         </div>
         <div className="result-screen">
-          {props.calculator.result}
+          {(props.calculator.result !== 0) ? props.calculator.result : null}
         </div>
         <div className="key-container">
           <div className="row-key">
-            <button value={"("} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>(</button>
-            <button value={")"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>)</button>
+            <button value={"("} onClick={event => props.getExpression(event.target.value)}>(</button>
+            <button value={")"} onClick={event => props.getExpression(event.target.value)}>)</button>
+            <button onClick={() => props.clearExpression(CLEAR)}>C</button>
+            <button value={"/"} onClick={event => props.getExpression(event.target.value)}>/</button>
           </div>
           <div className="row-key">
-            <button value={"7"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>7</button>
-            <button value={"8"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>8</button>
-            <button value={"9"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>9</button>
-            <button value={"*"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>*</button>
+            <button value={"7"} onClick={event => props.getExpression(event.target.value)}>7</button>
+            <button value={"8"} onClick={event => props.getExpression(event.target.value)}>8</button>
+            <button value={"9"} onClick={event => props.getExpression(event.target.value)}>9</button>
+            <button value={"*"} onClick={event => props.getExpression(event.target.value)}>*</button>
           </div>
           <div className="row-key">
-            <button value={"4"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>4</button>
-            <button value={"5"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>5</button>
-            <button value={"6"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>6</button>
-            <button value={"-"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>-</button>
+            <button value={"4"} onClick={event => props.getExpression(event.target.value)}>4</button>
+            <button value={"5"} onClick={event => props.getExpression(event.target.value)}>5</button>
+            <button value={"6"} onClick={event => props.getExpression(event.target.value)}>6</button>
+            <button value={"-"} onClick={event => props.getExpression(event.target.value)}>-</button>
           </div>
           <div className="row-key">
-            <button value={"1"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>1</button>
-            <button value={"2"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>2</button>
-            <button value={"3"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>3</button>
-            <button value={"+"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>+</button>
+            <button value={"1"} onClick={event => props.getExpression(event.target.value)}>1</button>
+            <button value={"2"} onClick={event => props.getExpression(event.target.value)}>2</button>
+            <button value={"3"} onClick={event => props.getExpression(event.target.value)}>3</button>
+            <button value={"+"} onClick={event => props.getExpression(event.target.value)}>+</button>
           </div>
           <div className="row-key">
-            <button value={"0"} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>0</button>
-            <button value={"."} onClick={event => props.getExpression(GET_EXPRESSION, event.target.value)}>.</button>
+            <button value={"0"} onClick={event => props.getExpression(event.target.value)}>0</button>
+            <button value={"."} onClick={event => props.getExpression(event.target.value)}>.</button>
             <button onClick={() => props.getCalculatedResult(CALCULATE)}>=</button>
           </div>
         </div>
@@ -53,11 +56,15 @@ let mapStateToProps = (state, props) => {
 
 let mapDispatchToProps = (dispatch, props) => {
   return {
-    getExpression: (type, payload) => {
-      dispatch({type: type, payload: payload})
+    getExpression: (payload) => {
+      dispatch(getExpression(payload))
     },
 
     getCalculatedResult: (type, payload) => {
+      dispatch({type: type, payload: payload});
+    },
+
+    clearExpression: (type, payload) => {
       dispatch({type: type, payload: payload});
     }
   }
