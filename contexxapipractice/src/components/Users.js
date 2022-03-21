@@ -10,6 +10,14 @@ const Users = props => {
     classId = parseInt(classId.classId);
     var users = context.users.users.filter(item => item.ClassId === classId);
 
+    const handleDelete = (email) => {
+      axios.delete("http://127.0.0.1:1880/user", {
+          data: {
+              Email: email
+          }
+      }).then(() => window.location.reload())
+    }
+
     return (
         <table className={"table table-hover table-striped table-bordered"}>
             <thead>
@@ -35,6 +43,10 @@ const Users = props => {
                     <td>{item.Password}</td>
                     <td><Link to={`/users/detail/${item.Email}`}>{item.Name}</Link></td>
                     <td>{item.Role}</td>
+                    <td>
+                        <Link className={"btn btn-outline-success"} to={`/update/users/${item.ClassId}/${item.Email}`}>Update</Link>
+                        <button className={"btn btn-outline-danger"} onClick={() => handleDelete(item.Email)}>Delete</button>
+                    </td>
                 </tr>
                 )
             }

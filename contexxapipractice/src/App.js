@@ -20,7 +20,9 @@ function App() {
               <Route path={"users/:classId"} element={<Users />} />
               <Route path={"users/detail/:email"} element={<UserDetail />} />
               <Route path={"users/:classId/addUser"} element={<AddUser />} />
+              <Route path={"update/users/:classId/:email"} element={<AddUser />} />
               <Route path={"add/class"} element={<AddClass />} />
+              <Route path={"update/class/:classId"} element={<AddClass />} />
           </Routes>
       </Layout>
     </AppContext.Provider>
